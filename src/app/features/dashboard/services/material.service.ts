@@ -23,4 +23,16 @@ export class MaterialService {
   listar(): Observable<Material[]> {
     return this.http.get<Material[]>(`${environment.apiUrl}/materiales`);
   }
+
+  obtenerPorId(id: number): Observable<Material> {
+    return this.http.get<Material>(`${environment.apiUrl}/materiales/${id}`);
+  }
+
+  actualizar(material: Material): Observable<Material> {
+    return this.http.put<Material>(`${environment.apiUrl}/materiales/${material.idMaterial}`, material);
+  }
+
+  eliminar(id: number): Observable<void> {
+    return this.http.delete<void>(`${environment.apiUrl}/materiales/${id}`);
+  }
 }
