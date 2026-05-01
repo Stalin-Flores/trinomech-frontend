@@ -1,0 +1,149 @@
+<div class="cosmos-stage">
+
+  <!-- ═══════════════════ FONDO ANIMADO ═══════════════════ -->
+  <div class="tiny-stars"></div>
+  <div class="tiny-stars-2"></div>
+  <div class="shooting-star"></div>
+
+  <div class="particle p-w  p1"></div>
+  <div class="particle p-a  p2"></div>
+  <div class="particle p-b  p3"></div>
+  <div class="particle p-w  p4"></div>
+  <div class="particle p-p  p5"></div>
+  <div class="particle p-w  p6"></div>
+  <div class="particle p-a  p7"></div>
+  <div class="particle p-b  p8"></div>
+  <div class="particle p-w  p9"></div>
+  <div class="particle p-p  p10"></div>
+  <div class="particle p-w  p11"></div>
+  <div class="particle p-a  p12"></div>
+
+  <!-- ═══════════════════ CONTENIDO ═══════════════════ -->
+  <div class="cosmos-content">
+
+    <!-- LADO IZQUIERDO: tagline (solo desktop) -->
+    <aside class="cosmos-tagline">
+      <div class="cosmos-pill">
+        <span class="cosmos-pill-dot"></span>
+        Sistema operativo
+      </div>
+
+      <h1 class="cosmos-title">
+        Tu inventario,<br/>
+        <em>en órbita.</em>
+      </h1>
+
+      <p class="cosmos-sub">
+        Control de stock para Fibra Óptica y HFC.
+        Trazabilidad clara, movimientos al instante.
+      </p>
+
+      <div class="cosmos-foot">
+        v1.0.0 · BETA — {{ now | date:'yyyy.MM.dd · HH:mm' }}
+      </div>
+    </aside>
+
+    <!-- LADO DERECHO: tarjeta del login -->
+    <main class="login-pane">
+      <div class="glass-card">
+
+        <!-- Marca -->
+        <div class="glass-mark">
+          <div class="glass-mark-box">TM</div>
+          <div class="glass-brand">Trinomech</div>
+        </div>
+
+        <!-- Header -->
+        <div class="glass-eyebrow">// Acceso al sistema</div>
+        <h2 class="glass-h">Iniciar sesión</h2>
+        <p class="glass-sub">Identifícate con tu usuario asignado</p>
+
+        <!-- Form -->
+        <form [formGroup]="form" (ngSubmit)="submit()" autocomplete="on" novalidate>
+
+          <!-- Usuario -->
+          <div class="field">
+            <label for="nombreUsuario" class="glass-label">Usuario</label>
+            <input
+              id="nombreUsuario"
+              type="text"
+              formControlName="nombreUsuario"
+              autocomplete="username"
+              placeholder="ej. stalin"
+              class="glass-input"
+              [class.is-invalid]="form.controls.nombreUsuario.invalid && form.controls.nombreUsuario.touched"
+            />
+            @if (form.controls.nombreUsuario.touched && form.controls.nombreUsuario.invalid) {
+              <p class="field-error">· Usuario requerido (mín. 3 caracteres)</p>
+            }
+          </div>
+
+          <!-- Contraseña -->
+          <div class="field">
+            <label for="contrasena" class="glass-label">Contraseña</label>
+            <div class="input-wrap">
+              <input
+                id="contrasena"
+                [type]="showPassword() ? 'text' : 'password'"
+                formControlName="contrasena"
+                autocomplete="current-password"
+                placeholder="••••••••"
+                class="glass-input has-icon"
+                [class.is-invalid]="form.controls.contrasena.invalid && form.controls.contrasena.touched"
+              />
+              <button
+                type="button"
+                (click)="togglePassword()"
+                class="input-icon"
+                [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+              >
+                @if (showPassword()) {
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m15 18-.722-3.25"/><path d="M2 8a10.645 10.645 0 0 0 20 0"/><path d="m20 15-1.726-2.05"/><path d="m4 15 1.726-2.05"/><path d="m9 18 .722-3.25"/>
+                  </svg>
+                } @else {
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>
+                  </svg>
+                }
+              </button>
+            </div>
+            @if (form.controls.contrasena.touched && form.controls.contrasena.invalid) {
+              <p class="field-error">· Contraseña requerida</p>
+            }
+          </div>
+
+          <!-- Mensaje de error global -->
+          @if (errorMessage()) {
+            <div class="glass-error">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              <span>{{ errorMessage() }}</span>
+            </div>
+          }
+
+          <!-- Botón -->
+          <button type="submit" class="glass-btn" [disabled]="loading()">
+            @if (loading()) {
+              <svg class="spin" width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.25"/>
+                <path d="M4 12a8 8 0 018-8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+              Verificando...
+            } @else {
+              Acceder
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              </svg>
+            }
+          </button>
+
+        </form>
+
+        <div class="glass-foot">v1.0.0 · BETA</div>
+      </div>
+    </main>
+
+  </div>
+</div>
